@@ -68,28 +68,29 @@
 
 ## Файлова структура
 
-````text
-cbs-node-final-project/
-│
-├── server/
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   └── server.js
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   └── package.json
-│
-├── .gitignore
-└── README.md
-    ```
+   ```text
+   cbs-node-final-project/
+   │
+   ├── server/
+   │   ├── config/
+   │   ├── controllers/
+   │   ├── models/
+   │   ├── routes/
+   │   └── server.js
+   │
+   ├── frontend/
+   │   ├── public/
+   │   ├── src/
+   │   └── package.json
+   │
+   ├── .gitignore
+   └── README.md
+   ```
 
 ## Автори
+
 - [Oleg Bon](https://github.com/OlegBon)
 
 ## Ліцензія
+
 Цей проект ліцензовано відповідно до ліцензії MIT. Див. файл [LICENSE](./LICENSE) для деталей.
-````
