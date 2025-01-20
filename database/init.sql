@@ -20,13 +20,27 @@
 -- );
 
 
+-- CREATE DATABASE IF NOT EXISTS myapp;
+
+-- USE myapp;
+
+-- CREATE TABLE IF NOT EXISTS users
+-- (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     email VARCHAR(255) NOT NULL,
+--     password VARCHAR(255) NOT NULL,
+--     last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+
 CREATE DATABASE IF NOT EXISTS myapp;
 
 USE myapp;
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY,  -- зміна на CHAR(36) для UUID
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,

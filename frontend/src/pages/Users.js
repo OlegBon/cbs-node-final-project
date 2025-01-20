@@ -14,48 +14,70 @@ const Users = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      const token = localStorage.getItem("jwtToken");
+      if (!token) {
+        console.error("Token not found");
+        dispatch(setMessage("Token not found"));
+        navigate("/"); // Оновлено на головну, якщо токен не знайдено
+        return;
+      }
+
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/users`,
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         dispatch(setUsers(response.data));
       } catch (error) {
         if (error.response && error.response.status === 401) {
+          console.error("Unauthorized access:", error);
           dispatch(clearUser());
+          dispatch(setMessage("Unauthorized access, please login again"));
+          navigate("/login"); // Перенаправлення на сторінку входу
+        } else {
+          console.error("Failed to fetch users:", error);
+          dispatch(setMessage("Failed to fetch users"));
+          navigate("/login"); // Перенаправлення на сторінку входу
         }
-        dispatch(setMessage("Failed to fetch users"));
       }
     };
 
     fetchUsers();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/"); // Перенаправлення на головну сторінку, якщо користувач не залогінений
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/logout`);
+      localStorage.removeItem("jwtToken");
+      dispatch(clearUser());
+      dispatch(setMessage("Ви успішно вийшли"));
+      navigate("/"); // Перенаправляє на головну сторінку
+    } catch (error) {
+      console.error("Logout error:", error);
+      dispatch(setMessage("Помилка під час виходу"));
     }
-  }, [user, navigate]);
+  };
 
   const handleClear = async () => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      console.error("Token not found");
+      dispatch(setMessage("Token not found"));
+      navigate("/"); // Перенаправлення на головну, якщо токен не знайдено
+      return;
+    }
+
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/clear`,
         {},
-        { withCredentials: true }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log("Database cleared successfully");
       dispatch(setUsers([])); // Очищаємо список користувачів у Redux
-
-      // Логаут користувача так само як у компоненті Logout.js
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/logout`,
-        {},
-        { withCredentials: true }
-      );
-      dispatch(clearUser());
-      dispatch(setMessage("Logged out successfully"));
+      await handleLogout(); // Викликаємо logout після очищення бази даних
     } catch (error) {
-      console.error("There was an error clearing the database!", error);
+      console.error("Error clearing the database:", error);
       dispatch(setMessage("Failed to clear database"));
     }
   };
@@ -82,6 +104,7 @@ const Users = () => {
           Hi, {user.name} ({user.email})!
         </p>
       )}
+      <button onClick={handleLogout}>Logout</button>
       <button onClick={handleClear}>Clear Database</button>
       {users.length ? (
         <ul>

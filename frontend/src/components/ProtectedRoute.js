@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import { setUser, clearUser } from "../data/reducers/userSlice";
+import { clearUser, setUser } from "../data/reducers/userSlice";
 
 const ProtectedRoute = ({ element }) => {
   const [loading, setLoading] = useState(true);
@@ -10,11 +10,19 @@ const ProtectedRoute = ({ element }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const checkSession = async () => {
+    const verifyToken = async () => {
+      const token = localStorage.getItem("jwtToken");
+      if (!token) {
+        dispatch(clearUser());
+        setLoading(false);
+        return;
+      }
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/session`,
-          { withCredentials: true }
+          `${process.env.REACT_APP_API_URL}/verify-token`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         dispatch(setUser(response.data));
       } catch (error) {
@@ -24,14 +32,15 @@ const ProtectedRoute = ({ element }) => {
       }
     };
 
-    checkSession();
+    verifyToken();
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="container">Перевірка доступу...</div>;
   }
 
-  return user ? element : <Navigate to="/" />;
+  // Перевірка, чи є користувач
+  return user ? element : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

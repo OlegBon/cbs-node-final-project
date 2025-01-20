@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../data/reducers/userSlice';
-import { setMessage } from '../data/reducers/messageSlice';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { clearUser } from "../data/reducers/userSlice";
+import { setMessage } from "../data/reducers/messageSlice";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -12,18 +12,24 @@ const Logout = () => {
   useEffect(() => {
     const logoutUser = async () => {
       try {
-        await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
+        // Виконуємо запит до серверу
+        await axios.post(`${process.env.REACT_APP_API_URL}/logout`);
+        // Видаляємо токен з локального сховища
+        localStorage.removeItem("jwtToken");
+        // Очищаємо стан користувача
         dispatch(clearUser());
-        dispatch(setMessage('Logged out successfully'));
-        navigate('/');
+        dispatch(setMessage("Ви успішно вийшли."));
+        // Перенаправляємо на головну сторінку
+        navigate("/");
       } catch (error) {
-        dispatch(setMessage('Logout failed'));
+        dispatch(setMessage("Помилка під час виходу."));
       }
     };
+
     logoutUser();
   }, [dispatch, navigate]);
 
-  return <div className="container">Logging out...</div>;
+  return <div className="container">Вихід виконується...</div>;
 };
 
 export default Logout;

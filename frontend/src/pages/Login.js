@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../data/reducers/userSlice";
@@ -12,15 +12,19 @@ const Login = () => {
   const navigate = useNavigate();
   const message = useSelector((state) => state.message);
 
+  useEffect(() => {
+    // Очищення повідомлення при заході на сторінку логіну
+    dispatch(setMessage(""));
+  }, [dispatch]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
-        { email, password },
-        { withCredentials: true }
+        { email, password }
       );
-      console.log("Registration Response:", response.data);
+      localStorage.setItem("jwtToken", response.data.token);
       dispatch(setUser({ name: response.data.name, email }));
       dispatch(setMessage("Login successful"));
       navigate("/");
