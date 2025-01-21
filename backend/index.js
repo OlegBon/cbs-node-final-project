@@ -129,7 +129,7 @@ app.post("/logout", (req, res) => {
 app.post("/clear", verifyToken, async (req, res) => {
   try {
     await User.destroy({ where: {}, truncate: true });
-    res.json({ message: "Базу даних очищено" });
+    res.json({ message: "Базу даних очищено", redirectTo: "/" });
   } catch (error) {
     console.error("Помилка очищення бази даних:", error);
     res.status(500).json({ error: "Внутрішня помилка сервера" });

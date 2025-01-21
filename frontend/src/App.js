@@ -5,7 +5,6 @@ import {
   Route,
   Link,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -27,7 +26,6 @@ const App = () => {
 const AppRoutes = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -55,7 +53,9 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={
+      <Route
+        path="/"
+        element={
           <div>
             {user ? (
               <>

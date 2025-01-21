@@ -52,6 +52,7 @@ const Users = () => {
       dispatch(clearUser());
       dispatch(setMessage("Ви успішно вийшли"));
       navigate("/"); // Перенаправляє на головну сторінку
+      window.location.reload(); // Перезавантажує сторінку
     } catch (error) {
       console.error("Logout error:", error);
       dispatch(setMessage("Помилка під час виходу"));
@@ -68,14 +69,25 @@ const Users = () => {
     }
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/clear`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("Database cleared successfully");
       dispatch(setUsers([])); // Очищаємо список користувачів у Redux
-      await handleLogout(); // Викликаємо logout після очищення бази даних
+
+      // Видаляємо токен із локального зберігання
+      localStorage.removeItem("jwtToken");
+
+      // Примусовий рефреш
+      if (response.data.redirectTo) {
+        navigate(response.data.redirectTo);
+        window.location.reload(); // Примусове оновлення сторінки
+      } else {
+        navigate("/");
+        window.location.reload(); // Примусове оновлення сторінки
+      }
     } catch (error) {
       console.error("Error clearing the database:", error);
       dispatch(setMessage("Failed to clear database"));
