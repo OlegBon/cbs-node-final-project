@@ -22,11 +22,16 @@ app.use(
   })
 );
 
+// Додаємо просту затримку
+await new Promise((resolve) => setTimeout(resolve, 1000)); // Затримка 1 секунда
+
 // Синхронізація моделі з базою даних
-sequelize
-  .sync({ alter: true })
-  .then(() => console.log("Моделі синхронізовані з базою даних"))
-  .catch((error) => console.error("Помилка синхронізації:", error));
+async function initializeDatabase() {
+  await sequelize
+    .sync({ alter: true }) // alter: true означає, що таблиці будуть оновлені, щоб відповідати моделям, без втрати даних
+    .then(() => console.log("Моделі синхронізовані з базою даних"))
+    .catch((error) => console.error("Помилка синхронізації:", error));
+}
 
 // Підключення маршрутів
 app.use("/auth", authRoutes);
@@ -38,6 +43,7 @@ app.use((req, res) => {
 });
 
 // Запуск сервера
-app.listen(port, () => {
+app.listen(port, async () => {
+  await initializeDatabase(); // Синхронізація бази даних при старті сервера
   console.log(`Сервер працює на порту ${port}`);
 });
