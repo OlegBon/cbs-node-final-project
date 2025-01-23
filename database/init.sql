@@ -7,9 +7,9 @@
 -- );
 
 
-CREATE DATABASE IF NOT EXISTS node_final_project;
+-- CREATE DATABASE IF NOT EXISTS node_final_project;
 
-USE node_final_project;
+-- USE node_final_project;
 
 CREATE TABLE IF NOT EXISTS users
 (
