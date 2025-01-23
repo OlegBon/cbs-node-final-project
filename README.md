@@ -41,7 +41,7 @@
 3. Встановлення залежностей для сервера:
 
    ```sh
-   cd server
+   cd backend
    npm install
    ```
 
@@ -51,13 +51,19 @@
    npm install
    ```
 
+Якщо потрібно
+
+```sh
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
 ## Запуск проекту
 
 1. Запуск сервера:
 
    ```sh
-   cd server
-   npm start
+   cd backend
+   npm start або node server.js
    ```
 
 2. Запуск клієнта:
@@ -66,26 +72,87 @@
    npm start
    ```
 
+Якщо потрібно
+
+```sh
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
 ## Файлова структура
 
-   ```text
-   cbs-node-final-project/
-   │
-   ├── server/
-   │   ├── config/
-   │   ├── controllers/
-   │   ├── models/
-   │   ├── routes/
-   │   └── server.js
-   │
-   ├── frontend/
-   │   ├── public/
-   │   ├── src/
-   │   └── package.json
-   │
-   ├── .gitignore
-   └── README.md
-   ```
+```text
+cbs-node-final-project/
+│
+├── backend/
+│   ├── config/
+│   │   ├──config.js
+│   │   └──db.js
+│   ├── controllers/
+│   │   ├──authController.js
+│   │   └──userController.js
+│   ├── middleware/
+│   │   └──authMiddleware.js
+│   ├── models/
+│   │   ├──index.js
+│   │   └──User.js
+│   ├── routes/
+│   │   ├──authRoutes.js
+│   │   └──userRoutes.js
+│   ├── utils/
+│   │   └──tokenUtils.js
+│   ├── package.json
+│   └── server.js
+│
+├── database/
+│   └── init.sql
+│
+└── frontend/
+    ├── public/
+    ├── src/
+    │   ├── components/
+    │   │   ├──AppRoutes.js
+    │   │   ├──InputField.js
+    │   │   ├──LoadingSpinner.js
+    │   │   ├──ProtectedRoute.js
+    │   │   └──UserList.js
+    │   ├── data/
+    │   │   ├── reducers/
+    │   │   │   ├──LoadingSpinner.js
+    │   │   │   ├──ProtectedRoute.js
+    │   │   │   └──UserList.js
+    │   │   └── store/
+    │   │       └──store.js
+    │   ├── pages/
+    │   │   ├──Error.js
+    │   │   ├──Login.js
+    │   │   ├──Logout.js
+    │   │   ├──Register.js
+    │   │   └──Users.js
+    │   ├── utils/
+    │   │   ├──fetchUsers.js
+    │   │   ├──registerUser.js
+    │   │   └──verifyToken.js
+    │   ├── App.js
+    │   ├── index.css
+    │   ├── index.js
+    │   └── logo.svg
+    │
+    └── package.json
+```
+
+## Маршрути API
+
+### Аутентифікація
+
+- `POST /auth/register` - Реєстрація нового користувача
+- `POST /auth/login` - Вхід користувача
+- `GET /auth/verify-token` - Перевірка токену користувача
+- `POST /auth/logout` - Вихід користувача
+
+### Користувачі
+
+- `GET /users` - Отримати всіх користувачів (потрібен токен)
+- `POST /users/clear` - Очистити базу даних (потрібен токен)
 
 ## Автори
 
