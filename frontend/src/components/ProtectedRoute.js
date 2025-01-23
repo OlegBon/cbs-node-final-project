@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
-import { clearUser, setUser } from "../data/reducers/userSlice";
+import { verifyToken } from "../utils/verifyToken";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ProtectedRoute = ({ element }) => {
   const [loading, setLoading] = useState(true);
@@ -10,33 +10,15 @@ const ProtectedRoute = ({ element }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem("jwtToken");
-      if (!token) {
-        dispatch(clearUser());
-        setLoading(false);
-        return;
-      }
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/verify-token`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        dispatch(setUser(response.data));
-      } catch (error) {
-        dispatch(clearUser());
-      } finally {
-        setLoading(false);
-      }
+    const fetchData = async () => {
+      const isTokenValid = await verifyToken(dispatch);
+      setLoading(!isTokenValid);
     };
-
-    verifyToken();
+    fetchData();
   }, [dispatch]);
 
   if (loading) {
-    return <div className="container">Перевірка доступу...</div>;
+    return <LoadingSpinner />;
   }
 
   // Перевірка, чи є користувач

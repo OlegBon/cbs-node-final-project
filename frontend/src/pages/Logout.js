@@ -13,7 +13,7 @@ const Logout = () => {
     const logoutUser = async () => {
       try {
         // Виконуємо запит до серверу
-        await axios.post(`${process.env.REACT_APP_API_URL}/logout`);
+        await axios.post(`${process.env.REACT_APP_API_URL}/auth/logout`);
         // Видаляємо токен з локального сховища
         localStorage.removeItem("jwtToken");
         // Очищаємо стан користувача

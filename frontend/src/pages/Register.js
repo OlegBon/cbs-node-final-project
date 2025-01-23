@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUser } from "../data/reducers/userSlice";
 import { setMessage } from "../data/reducers/messageSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import InputField from "../components/InputField";
+import { registerUser } from "../utils/registerUser";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -19,47 +19,39 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/register`,
-        { name, email, password }
-      );
-      console.log("Registration Response:", response.data); // Додамо логування
-      localStorage.setItem("jwtToken", response.data.token);
-      dispatch(setUser({ name, email }));
-      dispatch(setMessage("User registered successfully"));
-      navigate("/users");
-    } catch (error) {
-      console.error("Registration Error:", error); // Додамо логування
-      dispatch(setMessage("Registration failed"));
-    }
+    await registerUser(name, email, password, dispatch, navigate);
   };
 
   return (
-    <form className="container" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
+    <>
+      <div className="container">
+        <Link to="/">На головну</Link>
+      </div>
+      <form className="container" onSubmit={handleSubmit}>
+        <InputField
+          type="text"
+          value={name}
+          onChange={setName}
+          placeholder="Ім'я"
+          required
+        />
+        <InputField
+          type="email"
+          value={email}
+          onChange={setEmail}
+          placeholder="Email"
+          required
+        />
+        <InputField
+          type="password"
+          value={password}
+          onChange={setPassword}
+          placeholder="Пароль"
+          required
+        />
+        <button type="submit">Зареєструватись</button>
+      </form>
+    </>
   );
 };
 
