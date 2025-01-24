@@ -24,17 +24,19 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "babel-jest": "^29.7.0",
     "customize-cra": "^1.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "react-app-rewired": "^2.2.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "NODE_OPTIONS=--trace-deprecation react-app-rewired test",
+    "test:local": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

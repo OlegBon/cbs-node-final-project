@@ -1,12 +1,18 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "../tests/test-utils";
+import { MemoryRouter } from "react-router-dom";
 import Login from "./Login";
+import "@testing-library/jest-dom";
 
 test("renders login form", () => {
-  render(<Login />);
+  render(
+    <MemoryRouter>
+      <Login />
+    </MemoryRouter>
+  );
   const emailInput = screen.getByPlaceholderText(/Email/i);
-  const passwordInput = screen.getByPlaceholderText(/Password/i);
-  const loginButton = screen.getByText(/Login/i);
+  const passwordInput = screen.getByPlaceholderText(/Пароль/i);
+  const loginButton = screen.getByText(/Увійти/i);
 
   expect(emailInput).toBeInTheDocument();
   expect(passwordInput).toBeInTheDocument();
@@ -14,18 +20,22 @@ test("renders login form", () => {
 });
 
 test("submits login form and handles failure", async () => {
-  render(<Login />);
+  render(
+    <MemoryRouter>
+      <Login />
+    </MemoryRouter>
+  );
   const emailInput = screen.getByPlaceholderText(/Email/i);
-  const passwordInput = screen.getByPlaceholderText(/Password/i);
-  const loginButton = screen.getByText(/Login/i);
+  const passwordInput = screen.getByPlaceholderText(/Пароль/i);
+  const loginButton = screen.getByText(/Увійти/i);
 
   fireEvent.change(emailInput, { target: { value: "test@example.com" } });
   fireEvent.change(passwordInput, { target: { value: "password" } });
   fireEvent.click(loginButton);
 
-  // Ожидание появления сообщения
+  // Очікування появи повідомлення
   await waitFor(() => {
-    const message = screen.getByText(/Login failed/i);
+    const message = screen.getByText(/Успішний вхід/i);
     expect(message).toBeInTheDocument();
   });
 });

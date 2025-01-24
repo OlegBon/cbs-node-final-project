@@ -12,4 +12,5 @@ module.exports = {
   testMatch: [
     "<rootDir>/src/**/*.test.js", // шаблон для тестових файлів
   ],
+  testEnvironment: "jsdom", // додали тестове середовище jsdom
 };

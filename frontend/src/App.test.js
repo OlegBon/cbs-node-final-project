@@ -1,8 +1,16 @@
+import React from "react";
 import { render, screen } from "./tests/test-utils";
 import App from "./App";
+import "@testing-library/jest-dom";
 
-test("renders learn react link", () => {
+test("renders login link", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const loginLink = screen.getByText(/увійдіть/i);
+  expect(loginLink).toBeInTheDocument();
+});
+
+test("renders register link", () => {
+  render(<App />);
+  const registerLink = screen.getByText(/зареєструйтеся/i);
+  expect(registerLink).toBeInTheDocument();
 });
