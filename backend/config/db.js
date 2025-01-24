@@ -57,7 +57,7 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
   // Додаємо тестове підключення для перевірки
   sequelize
     .authenticate()
-    .then(() => console.log("Підключення до бази даних встановлено."))
+    .then(() => console.log("Підключення до бази даних встановлено"))
     .catch((err) =>
       console.error("Не вдалося підключитися до бази даних:", err)
     );
