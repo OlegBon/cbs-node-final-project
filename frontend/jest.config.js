@@ -15,4 +15,6 @@ module.exports = {
   testEnvironment: "jsdom", // додали тестове середовище jsdom
 
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"], // додали це для запуску `setupTests.js`
+
+  verbose: true, // виводити детальну інформацію
 };
