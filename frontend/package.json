@@ -36,7 +36,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "NODE_OPTIONS=--trace-deprecation react-app-rewired test",
-    "test:local": "jest --verbose",
+    "test:local": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
