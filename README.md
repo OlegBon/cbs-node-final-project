@@ -98,8 +98,13 @@ cbs-node-final-project/
 │   ├── routes/
 │   │   ├──authRoutes.js
 │   │   └──userRoutes.js
+│   ├── tests/
+│   │   ├──authMiddleware.test.js
+│   │   └──tokenUtils.test.js
 │   ├── utils/
 │   │   └──tokenUtils.js
+│   ├── babel.config.js
+│   ├── jest.config.js
 │   ├── package.json
 │   └── server.js
 │
@@ -109,6 +114,8 @@ cbs-node-final-project/
 └── frontend/
     ├── public/
     ├── src/
+    │   ├── __mocks__/
+    │   │   └──axios.js
     │   ├── components/
     │   │   ├──AppRoutes.js
     │   │   ├──InputField.js
@@ -136,9 +143,75 @@ cbs-node-final-project/
     │   ├── index.css
     │   ├── index.js
     │   └── logo.svg
-    │
+    ├── babel.config.js
+    ├── config-overrides.js
+    ├── jest.config.js
     └── package.json
 ```
+
+## Структура проекту
+
+### Backend
+
+- `config/`: Конфігураційні файли проекту.
+  - `config.js`: Основні конфігурації.
+  - `db.js`: Налаштування бази даних.
+- `controllers/`: Контролери для обробки запитів.
+  - `authController.js`: Контролер для аутентифікації.
+  - `userController.js`: Контролер для управління користувачами.
+- `middleware/`: Проміжні програмні засоби.
+  - `authMiddleware.js`: Проміжний засіб для аутентифікації.
+- `models/`: Моделі бази даних.
+  - `index.js`: Індексація моделей.
+  - `User.js`: Модель користувача.
+- `routes/`: Маршрути для API.
+  - `authRoutes.js`: Маршрути для аутентифікації.
+  - `userRoutes.js`: Маршрути для користувачів.
+- `tests/`: Тестування.
+  - `authMiddleware.test.js`: Тести для authMiddleware.
+  - `tokenUtils.test.js`: Тести для utils/tokenUtils.
+- `utils/`: Утиліти та допоміжні модулі.
+  - `tokenUtils.js`: Функції для роботи з токенами.
+- `babel.config.js`: Конфігурація Babel.
+- `jest.config.js`: Конфігурація Jest.
+- `package.json`: Залежності та налаштування проекту.
+- `server.js`: Основний файл сервера.
+
+### Frontend
+
+- `public/`: Публічні файли, доступні з фронтенду.
+- `src/`: Вихідний код клієнтської частини.
+  - `__mocks__/`: Моки для тестування.
+    - `axios.js`: Мок для axios.
+  - `components/`: Компоненти React.
+    - `AppRoutes.js`: Маршрутизація додатку.
+    - `InputField.js`: Компонент вводу.
+    - `LoadingSpinner.js`: Компонент індикатора завантаження.
+    - `ProtectedRoute.js`: Компонент захищеного маршруту.
+    - `UserList.js`: Компонент списку користувачів.
+  - `data/`: Сховища даних та зменшувачі Redux.
+    - `reducers/`: Зменшувачі для Redux.
+      - `UserList.js`: Зменшувач для списку користувачів.
+    - `store/`: Сховище Redux.
+      - `store.js`: Конфігурація сховища.
+  - `pages/`: Сторінки додатку.
+    - `Error.js`: Сторінка помилки.
+    - `Login.js`: Сторінка входу.
+    - `Logout.js`: Сторінка виходу.
+    - `Register.js`: Сторінка реєстрації.
+    - `Users.js`: Сторінка користувачів.
+  - `utils/`: Утиліти та допоміжні модулі.
+    - `fetchUsers.js`: Функція для отримання користувачів.
+    - `registerUser.js`: Функція для реєстрації користувачів.
+    - `verifyToken.js`: Функція для перевірки токенів.
+  - `App.js`: Основний компонент додатку.
+  - `index.css`: Основні стилі додатку.
+  - `index.js`: Вхідна точка додатку.
+  - `logo.svg`: Лого додатку.
+- `babel.config.js`: Конфігурація Babel.
+- `config-overrides.js`: Налаштування перевизначень.
+- `jest.config.js`: Конфігурація Jest.
+- `package.json`: Залежності та налаштування проекту.
 
 ## Маршрути API
 
