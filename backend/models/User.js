@@ -3,7 +3,7 @@ import sequelize from "../config/db.js";
 import { v4 as uuidv4 } from "uuid"; // Додаємо бібліотеку для генерації UUID
 
 const User = sequelize.define(
-  "User",
+  "user",
   {
     id: {
       type: DataTypes.UUID,
